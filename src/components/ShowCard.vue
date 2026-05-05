@@ -1,25 +1,36 @@
 <script setup>
-defineProps({
+import { useRouter } from "vue-router";
+
+const {show} = defineProps({
   show: {
     type: Object,
     required: true,
   },
 });
+const router = useRouter();
+
+const goToDetails = () => {
+  console.log("Navigating to show details for ID:",show.id);
+  router.push(`/show/${show.id}`);
+};
 </script>
 
 <template>
-  <div class="card">
-    <div class="image-wrapper">
-      <img
-        :src="show.image?.medium || 'https://via.placeholder.com/150x220'"
-        alt="show"
-      />
-    </div>
+  <div class="card show-card" @click="goToDetails">
+    <img
+      :src="show.image?.medium || 'https://via.placeholder.com/150x220'"
+      class="card-img-top"
+      alt="show"
+    />
 
-    <!-- <div class="info">
-      <h3>{{ show.name }}</h3>
-      <p>⭐ {{ show.rating?.average || "N/A" }}</p>
-    </div> -->
+    <div class="card-body p-2">
+      <h6 class="card-title text-truncate mb-1">
+        {{ show.name }}
+      </h6>
+      <small class="text-muted">
+        ⭐ {{ show.rating?.average || "N/A" }}
+      </small>
+    </div>
   </div>
 </template>
 

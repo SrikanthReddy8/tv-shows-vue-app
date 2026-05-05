@@ -1,29 +1,27 @@
 import { defineStore } from "pinia";
-import { fetchShows } from "@/api/tvmaze";
+import { fetchShows, searchShows } from "@/api/tvmaze";
 
 export const useShowsStore = defineStore("shows", {
   state: () => ({
     shows: [],
+    searchResults: [],
     loading: false,
-    error: null,
-    visibleCount: 10,
   }),
 
   getters: {
-    visibleShows: (state) => state.shows.slice(0, state.visibleCount),
+    // ⭐ Popular shows (rating > 7)
+    popularShows: (state) =>
+      state.shows.filter(s => s.rating?.average > 7),
 
+    // 🎭 Group by genre
     showsByGenre: (state) => {
       const map = {};
-
-      state.shows.forEach((show) => {
-        show.genres.forEach((genre) => {
-          if (!map[genre]) {
-            map[genre] = [];
-          }
-          map[genre].push(show);
+      state.shows.forEach(show => {
+        show.genres.forEach(g => {
+          if (!map[g]) map[g] = [];
+          map[g].push(show);
         });
       });
-
       return map;
     },
   },
@@ -31,17 +29,17 @@ export const useShowsStore = defineStore("shows", {
   actions: {
     async loadShows() {
       this.loading = true;
-      try {
-        this.shows = await fetchShows();
-      } catch (err) {
-        this.error = err;
-      } finally {
-        this.loading = false;
-      }
+      this.shows = await fetchShows();
+      this.loading = false;
     },
 
-    loadMore() {
-      this.visibleCount += 10;
+    async search(query) {
+      if (!query) {
+        this.searchResults = [];
+        return;
+      }
+      const res = await searchShows(query);
+      this.searchResults = res.map(r => r.show);
     },
   },
 });
