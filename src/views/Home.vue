@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import { useShowsStore } from "@/stores/useShowsStore";
 
-import HorizontalScroller from "@/components/HorizontalScroller.vue";
+import ScrollableRow from "@/components/ScrollableRow.vue";
 import ShowCard from "@/components/ShowCard.vue";
 import SearchBar from "@/components/SearchBar.vue";
 
@@ -15,7 +15,6 @@ onMounted(() => {
 
 <template>
   <div class="container py-4">
-    <h1 class="mb-4 text-center">TV Shows Dashboard</h1>
 
     <!-- 🔍 Search -->
     <div class="mb-4">
@@ -26,13 +25,13 @@ onMounted(() => {
     <div v-if="store.searchResults.length" class="mb-5">
       <h4 class="mb-3">🔍 Search Results</h4>
 
-      <HorizontalScroller>
+      <ScrollableRow>
         <ShowCard
           v-for="show in store.searchResults"
           :key="show.id"
           :show="show"
         />
-      </HorizontalScroller>
+      </ScrollableRow>
     </div>
 
     <!-- 🎬 Default Dashboard (only when no search) -->
@@ -40,13 +39,13 @@ onMounted(() => {
       <!-- ⭐ Popular -->
       <div class="mb-5">
         <h4 class="mb-3">⭐ Popular Shows</h4>
-        <HorizontalScroller>
+        <ScrollableRow>
           <ShowCard
             v-for="show in store.popularShows.slice(0, 10)"
             :key="show.id"
             :show="show"
           />
-        </HorizontalScroller>
+        </ScrollableRow>
       </div>
 
       <!-- 🎭 Genres -->
@@ -56,13 +55,13 @@ onMounted(() => {
         class="mb-5"
       >
         <h4 class="mb-3">{{ genre }}</h4>
-        <HorizontalScroller>
+        <ScrollableRow>
           <ShowCard
             v-for="show in shows.slice(0, 10)"
             :key="show.id"
             :show="show"
           />
-        </HorizontalScroller>
+        </ScrollableRow>
       </div>
     </div>
   </div>
