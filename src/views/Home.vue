@@ -5,6 +5,7 @@ import { useShowsStore } from "@/stores/useShowsStore";
 import ScrollableRow from "@/components/ScrollableRow.vue";
 import ShowCard from "@/components/ShowCard.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import AppLoader from "./AppLoader.vue";
 
 const store = useShowsStore();
 
@@ -15,7 +16,6 @@ onMounted(() => {
 
 <template>
   <div class="container py-4">
-
     <!-- 🔍 Search -->
     <div class="mb-4">
       <SearchBar />

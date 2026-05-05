@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { getShowDetails } from "@/api/tvmaze";
+import { getShowDetails } from "@/api/showsService";
 
 const route = useRoute();
 const show = ref(null);

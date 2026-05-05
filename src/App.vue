@@ -1,10 +1,14 @@
 <script setup>
-import { RouterView } from "vue-router";
+import { useUIStore } from "@/stores/uiStore";
+import AppLoader from "./views/AppLoader.vue";
+
+const ui = useUIStore();
 </script>
 
 <template>
-  <RouterView />
-</template>
+  <!-- 🔥 Global Loader -->
+  <AppLoader v-if="ui.isLoading" />
 
-<style>
-</style>
+  <!-- App -->
+  <router-view />
+</template>
