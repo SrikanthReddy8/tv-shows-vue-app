@@ -98,3 +98,22 @@ npm run coverage
 ## 🔗 Repository
 
 https://github.com/SrikanthReddy8/tv-shows-vue-app
+
+## ✅ Test Coverage
+
+- Statements: 99%+
+- Branches: 93%+
+- Functions: 98%+
+- Lines: 99%+
+
+### Highlights
+
+✅ Full component coverage  
+✅ Full API & interceptor coverage  
+✅ Store logic tested including async flows  
+✅ Complex scenarios handled (debounce, router, events)  
+✅ Interceptor tested using handler extraction approach  
+
+Note:
+Some defensive branches in store are not explicitly tested,
+as they do not impact business behavior.
