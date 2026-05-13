@@ -5,7 +5,7 @@ import { useShowsStore } from "@/stores/useShowsStore";
 import ScrollableRow from "@/components/ScrollableRow.vue";
 import ShowCard from "@/components/ShowCard.vue";
 import SearchBar from "@/components/SearchBar.vue";
-import AppLoader from "./AppLoader.vue";
+import AppLoader from "./Loader.vue";
 
 const store = useShowsStore();
 
@@ -15,9 +15,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container py-4">
+  <div class="mx-5">
     <!-- 🔍 Search -->
-    <div class="mb-4">
+    <div class="my-4">
       <SearchBar />
     </div>
 
@@ -38,10 +38,10 @@ onMounted(() => {
     <div v-else>
       <!-- ⭐ Popular -->
       <div class="mb-5">
-        <h4 class="mb-3">⭐ Popular Shows</h4>
+        <h4 class="mb-3 fw-bold fs-2">⭐ Popular Shows</h4>
         <ScrollableRow>
           <ShowCard
-            v-for="show in store.popularShows.slice(0, 10)"
+            v-for="show in store.popularShows"
             :key="show.id"
             :show="show"
           />
@@ -54,10 +54,10 @@ onMounted(() => {
         :key="genre"
         class="mb-5"
       >
-        <h4 class="mb-3">{{ genre }}</h4>
+        <h4 class="mb-3 fw-bold fs-2">{{ genre }}</h4>
         <ScrollableRow>
           <ShowCard
-            v-for="show in shows.slice(0, 10)"
+            v-for="show in shows"
             :key="show.id"
             :show="show"
           />

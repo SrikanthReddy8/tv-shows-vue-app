@@ -21,7 +21,7 @@ onMounted(async () => {
       <div class="col-md-8">
         <h2>{{ show.name }}</h2>
 
-        <p class="text-muted">
+        <p class="fs-6">
           ⭐ {{ show.rating?.average }}
         </p>
 

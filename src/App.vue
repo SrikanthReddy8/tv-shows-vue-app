@@ -1,6 +1,7 @@
 <script setup>
 import { useUIStore } from "@/stores/uiStore";
-import AppLoader from "./views/AppLoader.vue";
+import AppLoader from "./views/Loader.vue";
+import AppHeader from "./components/Header.vue";
 
 const ui = useUIStore();
 </script>
@@ -8,6 +9,9 @@ const ui = useUIStore();
 <template>
   <!-- 🔥 Global Loader -->
   <AppLoader v-if="ui.isLoading" />
+
+   <!-- Header -->
+  <AppHeader />
 
   <!-- App -->
   <router-view />

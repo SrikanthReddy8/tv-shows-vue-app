@@ -69,7 +69,7 @@ onMounted(async () => {
 /* Scroll area */
 .scroll-container {
   display: flex;
-  gap: 12px;
+  gap: 36px;
   overflow-x: auto;
   scroll-behavior: smooth;
   flex: 1;

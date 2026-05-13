@@ -3,6 +3,10 @@ import { defineStore } from "pinia";
 export const useUIStore = defineStore("ui", {
   state: () => ({
     loadingCount: 0, // 🔥 important (supports multiple API calls)
+    user: {
+      name: "Srikanth Vanga",
+      initials: "SV",
+    },
   }),
 
   getters: {

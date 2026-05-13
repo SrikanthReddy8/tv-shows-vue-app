@@ -1,9 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  fetchShows,
-  searchShows,
-  getShowDetails,
-} from "@/api/showsService";
+import { fetchShows, searchShows, getShowDetails } from "@/api/showsService";
 
 export const useShowsStore = defineStore("shows", {
   state: () => ({
@@ -11,24 +7,28 @@ export const useShowsStore = defineStore("shows", {
     searchResults: [],
     selectedShow: null,
 
+    myList: new Set(), // ✅ better than array
+
     error: null,
-    visibleCount: 10,
+    visibleCount: 100,
   }),
 
   getters: {
-    visibleShows: (state) =>
-      state.shows.slice(0, state.visibleCount),
+    // 🔥 Visible shows (lazy load support)
+    visibleShows: (state) => state.shows,
 
+    // ⭐ Popular shows (top rated sorted)
     popularShows: (state) =>
       [...state.shows]
         .sort((a, b) => (b.rating?.average || 0) - (a.rating?.average || 0))
-        .slice(0, 20),
+        .slice(0, 100),
 
+    // 🎭 Group shows by genre
     showsByGenre: (state) => {
       const map = {};
 
       state.shows.forEach((show) => {
-        show.genres.forEach((genre) => {
+        show.genres?.forEach((genre) => {
           if (!map[genre]) map[genre] = [];
           map[genre].push(show);
         });
@@ -36,6 +36,22 @@ export const useShowsStore = defineStore("shows", {
 
       return map;
     },
+
+    // ⭐ Top Rated (>= 8)
+    topRatedShows: (state) =>
+      [...state.shows]
+        .filter((show) => (show.rating?.average || 0) >= 8)
+        .sort((a, b) => (b.rating?.average || 0) - (a.rating?.average || 0)),
+
+    // ❤️ My List (full show objects)
+    myListShows: (state) =>
+      state.shows.filter((show) => state.myList.has(show.id)),
+
+    latestShows: (state) =>
+      [...state.shows]
+        .filter((show) => show.premiered) // remove null dates
+        .sort((a, b) => new Date(b.premiered) - new Date(a.premiered))
+        .slice(0, 40),
   },
 
   actions: {
@@ -45,6 +61,7 @@ export const useShowsStore = defineStore("shows", {
 
       try {
         this.shows = await fetchShows();
+        console.log("Shows loaded:", this.shows.length);
       } catch (err) {
         this.error = "Failed to load shows";
       }
@@ -65,7 +82,7 @@ export const useShowsStore = defineStore("shows", {
       }
     },
 
-    // 🎬 Show details
+    // 🎬 Load single show details
     async loadShowDetails(id) {
       this.error = null;
 
@@ -76,6 +93,16 @@ export const useShowsStore = defineStore("shows", {
       }
     },
 
+    // ❤️ Toggle My List
+    toggleMyList(id) {
+      if (this.myList.has(id)) {
+        this.myList.delete(id);
+      } else {
+        this.myList.add(id);
+      }
+    },
+
+    // ➕ Load more
     loadMore() {
       this.visibleCount += 10;
     },
