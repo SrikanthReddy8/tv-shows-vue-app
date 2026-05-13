@@ -80,6 +80,7 @@ Run unit tests using Vitest:
 
 ```sh
 npm run test:unit
+npm run coverage
 ```
 
 ---
